@@ -1,0 +1,797 @@
+<!doctype html>
+<html lang="id">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Kilo CLI + Z.AI GLM-5.1 Guide</title>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%230f766e'/%3E%3Cpath d='M8 9h16v3H8zm0 6h11v3H8zm0 6h16v3H8z' fill='white'/%3E%3C/svg%3E">
+  <style>
+    :root {
+      --bg: #f4f6fb;
+      --panel: #ffffff;
+      --ink: #18212f;
+      --muted: #5f6b7a;
+      --line: #d9dee7;
+      --accent: #0f766e;
+      --accent-dark: #0b5751;
+      --accent-soft: #e5f5f2;
+      --blue: #2563eb;
+      --blue-soft: #eaf1ff;
+      --rose: #c2410c;
+      --rose-soft: #fff1e8;
+      --violet: #6d28d9;
+      --violet-soft: #f1ebff;
+      --warn: #805600;
+      --warn-soft: #fff5da;
+      --danger: #9f241b;
+      --danger-soft: #fff0ee;
+      --code-bg: #101820;
+      --code-ink: #eaf2f1;
+      --radius: 8px;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      margin: 0;
+      background: var(--bg);
+      color: var(--ink);
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      line-height: 1.55;
+    }
+
+    header {
+      border-bottom: 1px solid var(--line);
+      background: rgba(255, 255, 255, .88);
+      backdrop-filter: blur(14px);
+    }
+
+    .hero {
+      max-width: 1120px;
+      margin: 0 auto;
+      padding: 46px 24px 32px;
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      margin: 0 0 14px;
+      color: var(--accent-dark);
+      font-size: .78rem;
+      font-weight: 800;
+      letter-spacing: 0;
+      text-transform: uppercase;
+    }
+
+    .eyebrow::before {
+      content: "";
+      width: 10px;
+      height: 10px;
+      border-radius: 3px;
+      background: var(--accent);
+    }
+
+    h1 {
+      margin: 0 0 12px;
+      font-size: clamp(2rem, 5vw, 3.7rem);
+      line-height: 1;
+      letter-spacing: 0;
+    }
+
+    .subtitle {
+      max-width: 800px;
+      margin: 0;
+      color: var(--muted);
+      font-size: 1.06rem;
+    }
+
+    .meta-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 18px;
+    }
+
+    .meta-pill {
+      display: inline-flex;
+      align-items: center;
+      min-height: 34px;
+      padding: 6px 11px;
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      background: #fff;
+      color: var(--muted);
+      font-size: .9rem;
+    }
+
+    .meta-pill strong {
+      color: var(--ink);
+    }
+
+    main {
+      max-width: 1120px;
+      margin: 0 auto;
+      padding: 24px;
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) 272px;
+      gap: 24px;
+      align-items: start;
+    }
+
+    nav {
+      position: sticky;
+      top: 16px;
+      order: 2;
+      align-self: start;
+      max-height: calc(100vh - 32px);
+      overflow: auto;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background: rgba(255, 255, 255, .92);
+      box-shadow: 0 18px 40px rgba(24, 33, 47, .08);
+      padding: 14px;
+    }
+
+    .toc-title {
+      margin: 0 0 8px;
+      padding: 0 4px 9px;
+      border-bottom: 1px solid var(--line);
+      color: var(--muted);
+      font-size: .78rem;
+      font-weight: 800;
+      letter-spacing: 0;
+      text-transform: uppercase;
+    }
+
+    .toc-group {
+      margin: 10px 0 14px;
+    }
+
+    .toc-group-title {
+      margin: 0 0 6px;
+      padding: 0 8px;
+      color: var(--accent-dark);
+      font-size: .76rem;
+      font-weight: 800;
+      text-transform: uppercase;
+    }
+
+    nav a {
+      display: flex;
+      align-items: flex-start;
+      gap: 8px;
+      min-height: 38px;
+      margin: 2px 0;
+      padding: 7px 8px;
+      border: 1px solid transparent;
+      border-radius: 6px;
+      color: var(--ink);
+      text-decoration: none;
+      font-size: .86rem;
+      line-height: 1.25;
+    }
+
+    nav a::before {
+      content: "";
+      flex: 0 0 auto;
+      width: 7px;
+      height: 7px;
+      margin-top: 5px;
+      border-radius: 2px;
+      background: #c5cedb;
+    }
+
+    nav a:hover,
+    nav a.active {
+      border-color: #9bd4cb;
+      background: var(--accent-soft);
+      color: var(--accent-dark);
+    }
+
+    nav a.active {
+      box-shadow: inset 3px 0 0 var(--accent);
+    }
+
+    nav a:hover::before,
+    nav a.active::before {
+      background: var(--accent);
+    }
+
+    .toc-label {
+      display: block;
+      font-weight: 700;
+    }
+
+    .toc-desc {
+      display: block;
+      margin-top: 2px;
+      color: var(--muted);
+      font-size: .75rem;
+      line-height: 1.25;
+    }
+
+    nav a.active .toc-desc,
+    nav a:hover .toc-desc {
+      color: var(--accent-dark);
+    }
+
+    .content {
+      order: 1;
+      min-width: 0;
+    }
+
+    section {
+      position: relative;
+      overflow: hidden;
+      scroll-margin-top: 18px;
+      margin-bottom: 18px;
+      padding: 24px;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background: var(--panel);
+      box-shadow: 0 14px 34px rgba(24, 33, 47, .06);
+    }
+
+    section::before {
+      content: "";
+      position: absolute;
+      inset: 0 auto 0 0;
+      width: 4px;
+      background: var(--accent);
+    }
+
+    section:nth-of-type(3n + 2)::before {
+      background: var(--blue);
+    }
+
+    section:nth-of-type(3n + 3)::before {
+      background: var(--rose);
+    }
+
+    h2 {
+      margin: 0 0 14px;
+      font-size: 1.35rem;
+      letter-spacing: 0;
+    }
+
+    h3 {
+      margin: 22px 0 10px;
+      font-size: 1rem;
+      letter-spacing: 0;
+    }
+
+    p {
+      margin: 0 0 12px;
+    }
+
+    ul,
+    ol {
+      margin: 0 0 14px;
+      padding-left: 22px;
+    }
+
+    li {
+      margin: 6px 0;
+    }
+
+    code {
+      padding: 2px 5px;
+      border-radius: 4px;
+      background: #eef1f5;
+      color: #1b2a37;
+      font-family: "SFMono-Regular", Consolas, Menlo, monospace;
+      font-size: .92em;
+      overflow-wrap: anywhere;
+    }
+
+    pre {
+      overflow: auto;
+      margin: 12px 0 18px;
+      padding: 14px;
+      border-radius: var(--radius);
+      background: var(--code-bg);
+      color: var(--code-ink);
+      font-size: .9rem;
+      line-height: 1.45;
+    }
+
+    pre code {
+      padding: 0;
+      background: transparent;
+      color: inherit;
+    }
+
+    table {
+      width: 100%;
+      margin: 12px 0 18px;
+      overflow: hidden;
+      border: 1px solid var(--line);
+      border-collapse: collapse;
+      border-radius: var(--radius);
+    }
+
+    th,
+    td {
+      padding: 10px 12px;
+      border-bottom: 1px solid var(--line);
+      text-align: left;
+      vertical-align: top;
+    }
+
+    th {
+      background: #eef3f7;
+      font-weight: 700;
+    }
+
+    tr:last-child td {
+      border-bottom: 0;
+    }
+
+    .note,
+    .warning,
+    .danger {
+      margin: 12px 0 18px;
+      padding: 12px 14px;
+      border: 1px solid transparent;
+      border-radius: var(--radius);
+    }
+
+    .note {
+      background: var(--accent-soft);
+      border-color: #a8dcd4;
+    }
+
+    .warning {
+      background: var(--warn-soft);
+      border-color: #f1cf7a;
+      color: var(--warn);
+    }
+
+    .danger {
+      background: var(--danger-soft);
+      border-color: #f0aaa4;
+      color: var(--danger);
+    }
+
+    .checklist {
+      list-style: none;
+      padding-left: 0;
+    }
+
+    .checklist li {
+      position: relative;
+      padding-left: 26px;
+    }
+
+    .checklist li::before {
+      content: "";
+      position: absolute;
+      left: 0;
+      top: .45em;
+      width: 14px;
+      height: 14px;
+      border: 2px solid var(--accent);
+      border-radius: 4px;
+    }
+
+    .link-list {
+      list-style: none;
+      padding-left: 0;
+    }
+
+    .link-list a {
+      color: var(--accent-dark);
+      font-weight: 700;
+    }
+
+    footer {
+      border-top: 1px solid var(--line);
+      background: #fff;
+    }
+
+    .footer-inner {
+      max-width: 1120px;
+      margin: 0 auto;
+      padding: 24px;
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) auto;
+      gap: 16px;
+      align-items: center;
+      color: var(--muted);
+      font-size: .92rem;
+    }
+
+    .footer-title {
+      margin: 0 0 4px;
+      color: var(--ink);
+      font-weight: 800;
+    }
+
+    .footer-copy {
+      margin: 0;
+    }
+
+    .footer-links {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      justify-content: flex-end;
+    }
+
+    .footer-links a {
+      display: inline-flex;
+      align-items: center;
+      min-height: 32px;
+      padding: 5px 10px;
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      color: var(--ink);
+      text-decoration: none;
+      background: #fff;
+    }
+
+    .footer-links a:hover {
+      border-color: #9bd4cb;
+      background: var(--accent-soft);
+      color: var(--accent-dark);
+    }
+
+    @media (max-width: 860px) {
+      main {
+        grid-template-columns: 1fr;
+      }
+
+      nav {
+        position: static;
+        order: 1;
+        max-height: none;
+      }
+
+      .content {
+        order: 2;
+      }
+
+      .footer-inner {
+        grid-template-columns: 1fr;
+      }
+
+      .footer-links {
+        justify-content: flex-start;
+      }
+    }
+
+    @media (max-width: 640px) {
+      section {
+        padding: 20px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="hero">
+      <p class="eyebrow">Kilo CLI Setup</p>
+      <h1>Kilo CLI + Z.AI GLM-5.1 Guide</h1>
+      <p class="subtitle">Panduan setup Kilo CLI dengan Z.AI GLM-5.1 untuk agentic coding di terminal, memakai endpoint Coding Plan dan config lokal <code>~/.config/kilo/opencode.json</code>.</p>
+      <div class="meta-row" aria-label="Informasi dokumen">
+        <span class="meta-pill">Author: <strong>&nbsp;Nagumo</strong></span>
+        <span class="meta-pill">Model: <code>zai/glm-5.1</code></span>
+        <span class="meta-pill">Config: <code>~/.config/kilo/opencode.json</code></span>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <nav aria-label="Daftar isi">
+      <p class="toc-title">Daftar Isi</p>
+      <div class="toc-group">
+        <p class="toc-group-title">Overview</p>
+        <a href="#why"><span><span class="toc-label">Kenapa Setup Ini</span><span class="toc-desc">Kapan Kilo + GLM-5.1 berguna.</span></span></a>
+        <a href="#tested"><span><span class="toc-label">Tested Setup</span><span class="toc-desc">Snapshot setup yang dipakai guide ini.</span></span></a>
+      </div>
+      <div class="toc-group">
+        <p class="toc-group-title">Install</p>
+        <a href="#install"><span><span class="toc-label">Install Kilo CLI</span><span class="toc-desc">npm install, verify, dan start.</span></span></a>
+        <a href="#zai-key"><span><span class="toc-label">Z.AI API Key</span><span class="toc-desc">Ambil key dan endpoint Coding Plan.</span></span></a>
+      </div>
+      <div class="toc-group">
+        <p class="toc-group-title">Config</p>
+        <a href="#connect"><span><span class="toc-label">Interactive Setup</span><span class="toc-desc">Pakai /connect kalau tersedia.</span></span></a>
+        <a href="#manual"><span><span class="toc-label">Manual Config</span><span class="toc-desc">Contoh opencode.json minimal.</span></span></a>
+        <a href="#mcp-skills"><span><span class="toc-label">MCP & Skills</span><span class="toc-desc">Tooling tambahan untuk Kilo.</span></span></a>
+      </div>
+      <div class="toc-group">
+        <p class="toc-group-title">Run</p>
+        <a href="#verify"><span><span class="toc-label">Verify</span><span class="toc-desc">Cek model, command, dan smoke test.</span></span></a>
+        <a href="#usage"><span><span class="toc-label">Daily Usage</span><span class="toc-desc">Cara pakai dari project folder.</span></span></a>
+      </div>
+      <div class="toc-group">
+        <p class="toc-group-title">Safety</p>
+        <a href="#security"><span><span class="toc-label">Security</span><span class="toc-desc">Jangan bocorkan API key.</span></span></a>
+        <a href="#troubleshooting"><span><span class="toc-label">Troubleshooting</span><span class="toc-desc">Masalah umum dan fix cepat.</span></span></a>
+        <a href="#references"><span><span class="toc-label">References</span><span class="toc-desc">Link docs resmi.</span></span></a>
+      </div>
+    </nav>
+
+    <div class="content">
+      <section id="why">
+        <h2>Kenapa Setup Ini</h2>
+        <p>Kilo CLI berguna kalau kamu ingin coding agent langsung dari terminal, bukan dari IDE. Dengan Z.AI GLM-5.1, setup ini cocok untuk task coding yang butuh planning panjang, tool use, dan iterasi beberapa langkah.</p>
+        <div class="note">
+          Intinya: Kilo jadi shell-native coding agent, Z.AI menyediakan model <code>glm-5.1</code>, dan workflow terminal-first bisa dipakai tanpa pindah ke editor plugin.
+        </div>
+      </section>
+
+      <section id="tested">
+        <h2>Tested Setup</h2>
+        <p>Guide ini disusun dari setup Kilo CLI lokal yang sudah berjalan, lalu digeneralisasi supaya aman dishare.</p>
+        <table>
+          <thead>
+            <tr>
+              <th>Item</th>
+              <th>Value</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Kilo CLI package</td>
+              <td><code>@kilocode/cli</code></td>
+            </tr>
+            <tr>
+              <td>Tested version</td>
+              <td><code>7.2.40</code></td>
+            </tr>
+            <tr>
+              <td>Global config file</td>
+              <td><code>~/.config/kilo/opencode.json</code></td>
+            </tr>
+            <tr>
+              <td>Provider</td>
+              <td><code>zai</code> / <code>Z.AI</code></td>
+            </tr>
+            <tr>
+              <td>Model</td>
+              <td><code>zai/glm-5.1</code></td>
+            </tr>
+            <tr>
+              <td>Coding Plan base URL</td>
+              <td><code>https://api.z.ai/api/coding/paas/v4</code></td>
+            </tr>
+          </tbody>
+        </table>
+      </section>
+
+      <section id="install">
+        <h2>Install Kilo CLI</h2>
+        <p>Install Kilo CLI via npm. Pastikan Node.js dan npm sudah tersedia dulu.</p>
+        <pre><code>node --version
+npm --version</code></pre>
+
+        <p>Install package global:</p>
+        <pre><code>npm install -g @kilocode/cli</code></pre>
+
+        <p>Verify:</p>
+        <pre><code>which kilo
+kilo --version
+kilo --help</code></pre>
+
+        <p>Start Kilo dari folder project:</p>
+        <pre><code>cd ~/projects/my-app
+kilo</code></pre>
+      </section>
+
+      <section id="zai-key">
+        <h2>Z.AI API Key</h2>
+        <p>Login ke Z.AI, subscribe atau aktifkan GLM Coding Plan sesuai kebutuhan, lalu buat API key dari halaman API management.</p>
+        <ol>
+          <li>Buka Z.AI Open Platform.</li>
+          <li>Masuk ke API Keys.</li>
+          <li>Create API key.</li>
+          <li>Simpan key di tempat private.</li>
+        </ol>
+        <div class="danger">
+          Jangan commit API key ke GitHub. Jangan taruh key asli di HTML, README, screenshot, atau chat publik.
+        </div>
+        <p>Untuk GLM Coding Plan, gunakan endpoint Coding API:</p>
+        <pre><code>https://api.z.ai/api/coding/paas/v4</code></pre>
+      </section>
+
+      <section id="connect">
+        <h2>Interactive Setup</h2>
+        <p>Cara paling aman adalah memakai setup interaktif Kilo, karena credential akan dikelola lewat flow CLI.</p>
+        <pre><code>kilo</code></pre>
+        <p>Di dalam Kilo, jalankan:</p>
+        <pre><code>/connect</code></pre>
+        <p>Pilih provider Z.AI jika tersedia, lalu isi:</p>
+        <ul>
+          <li>Base URL: <code>https://api.z.ai/api/coding/paas/v4</code></li>
+          <li>API key: Z.AI API key kamu</li>
+          <li>Model: <code>glm-5.1</code></li>
+        </ul>
+        <div class="warning">
+          Kalau provider/model belum muncul di UI Kilo, pakai manual config di section berikutnya.
+        </div>
+      </section>
+
+      <section id="manual">
+        <h2>Manual Config</h2>
+        <p>Config global Kilo CLI bisa diletakkan di <code>~/.config/kilo/opencode.json</code>. Contoh minimal berikut memakai provider Z.AI lewat adapter OpenAI-compatible.</p>
+        <pre><code>{
+  "$schema": "https://opencode.ai/config.json",
+  "default_agent": "AGENTS",
+  "model": "zai/glm-5.1",
+  "provider": {
+    "zai": {
+      "name": "Z.AI",
+      "npm": "@ai-sdk/openai-compatible",
+      "options": {
+        "baseURL": "https://api.z.ai/api/coding/paas/v4",
+        "apiKey": "your_zai_api_key"
+      },
+      "models": {
+        "glm-5.1": {
+          "name": "GLM-5.1",
+          "reasoning": true,
+          "limit": {
+            "context": 204800,
+            "output": 131072
+          }
+        }
+      }
+    }
+  }
+}</code></pre>
+
+        <p>Setelah edit config, restart Kilo:</p>
+        <pre><code>kilo</code></pre>
+
+        <div class="warning">
+          Beberapa versi Kilo juga menyebut <code>opencode.jsonc</code> atau <code>kilo.jsonc</code>. Untuk Kilo CLI setup yang diuji di guide ini, path yang dipakai adalah <code>~/.config/kilo/opencode.json</code>.
+        </div>
+      </section>
+
+      <section id="mcp-skills">
+        <h2>MCP & Skills</h2>
+        <p>Kilo bisa memakai MCP dan skills untuk memperluas kemampuan agent. Contoh setup yang diuji memakai MCP seperti <code>context7</code>, <code>playwright</code>, dan <code>postgres</code>.</p>
+        <p>Folder skills umum:</p>
+        <pre><code>~/.config/kilo/skills/</code></pre>
+        <p>Contoh struktur:</p>
+        <pre><code>~/.config/kilo/
+├── opencode.json
+└── skills/
+    ├── caveman/
+    └── commit-hashmicro/</code></pre>
+        <div class="note">
+          Untuk public guide, cukup jelaskan pattern. Jangan publish skill private yang berisi instruksi internal, credential, nama client, atau workflow sensitif.
+        </div>
+      </section>
+
+      <section id="verify">
+        <h2>Verify</h2>
+        <p>Cek command dan versi:</p>
+        <pre><code>which kilo
+kilo --version
+kilo models zai</code></pre>
+        <p>Smoke test dari folder project:</p>
+        <pre><code>cd ~/projects/my-app
+kilo run "Explain this repository structure briefly."</code></pre>
+        <p>Atau buka TUI:</p>
+        <pre><code>kilo</code></pre>
+        <p>Di dalam Kilo, cek provider/model aktif dari UI atau command status/profile yang tersedia di versi Kilo kamu.</p>
+      </section>
+
+      <section id="usage">
+        <h2>Daily Usage</h2>
+        <p>Mulai Kilo dari root repo supaya agent membaca instruksi project dan struktur file dengan benar.</p>
+        <pre><code>cd ~/projects/my-app
+kilo</code></pre>
+        <p>Untuk one-shot task:</p>
+        <pre><code>kilo run "Find the likely cause of this error and propose a minimal fix."</code></pre>
+        <p>Untuk lanjut session terakhir:</p>
+        <pre><code>kilo --continue</code></pre>
+        <p>Untuk session tertentu:</p>
+        <pre><code>kilo --session &lt;session-id&gt;</code></pre>
+      </section>
+
+      <section id="security">
+        <h2>Security</h2>
+        <ul class="checklist">
+          <li>Jangan taruh API key asli di repo publik.</li>
+          <li>Jangan screenshot config yang berisi API key.</li>
+          <li>Kalau API key pernah muncul di chat publik, revoke dan buat key baru.</li>
+          <li>Pisahkan config personal, kerja, dan client kalau aksesnya berbeda.</li>
+          <li>Review permission Kilo sebelum memberi auto-approve untuk edit atau shell command.</li>
+        </ul>
+      </section>
+
+      <section id="troubleshooting">
+        <h2>Troubleshooting</h2>
+        <h3><code>kilo</code> command tidak ditemukan</h3>
+        <pre><code>npm install -g @kilocode/cli
+npm bin -g</code></pre>
+        <p>Pastikan global npm bin ada di <code>PATH</code>.</p>
+
+        <h3>Model <code>glm-5.1</code> tidak muncul</h3>
+        <p>Update Kilo, lalu cek config provider manual.</p>
+        <pre><code>kilo upgrade
+kilo models zai</code></pre>
+
+        <h3>Request masuk endpoint salah</h3>
+        <p>Pastikan base URL memakai Coding API, bukan General API.</p>
+        <pre><code>https://api.z.ai/api/coding/paas/v4</code></pre>
+
+        <h3>Auth gagal</h3>
+        <p>Generate API key baru dari Z.AI, update config, lalu restart Kilo. Jangan paste key ke terminal history kalau kamu tidak yakin shell history aman.</p>
+      </section>
+
+      <section id="references">
+        <h2>References</h2>
+        <ul class="link-list">
+          <li><a href="https://kilo.ai/docs/code-with-ai/platforms/cli">Kilo CLI official docs</a> - install, verify, commands, config path.</li>
+          <li><a href="https://docs.z.ai/devpack/tool/kilo">Z.AI Kilo Code documentation</a> - Z.AI provider, Coding Plan endpoint, and <code>glm-5.1</code> model selection.</li>
+          <li><a href="https://docs.z.ai/devpack/quick-start">Z.AI GLM Coding Plan Quick Start</a> - API key, Coding API endpoint, and supported tools.</li>
+          <li><a href="https://docs.z.ai/guides/llm/glm-5.1">Z.AI GLM-5.1 model docs</a> - model capability, context length, output tokens, and agentic coding positioning.</li>
+          <li><a href="https://docs.z.ai/devpack/using5.1">Z.AI model switching guide</a> - GLM-5.1 availability and custom tool model configuration.</li>
+        </ul>
+      </section>
+    </div>
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+      <div>
+        <p class="footer-title">Kilo CLI + Z.AI GLM-5.1 Guide</p>
+        <p class="footer-copy">Written by Nagumo. Share freely, adapt carefully, and never publish credentials.</p>
+      </div>
+      <div class="footer-links" aria-label="Footer links">
+        <a href="../">All Guides</a>
+        <a href="#references">References</a>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    const tocLinks = Array.from(document.querySelectorAll('nav a[href^="#"]'));
+    const sections = tocLinks
+      .map((link) => document.querySelector(link.getAttribute('href')))
+      .filter(Boolean);
+
+    const setActiveToc = (id) => {
+      tocLinks.forEach((link) => {
+        link.classList.toggle('active', link.getAttribute('href') === `#${id}`);
+      });
+    };
+
+    const observer = new IntersectionObserver((entries) => {
+      const visible = entries
+        .filter((entry) => entry.isIntersecting)
+        .sort((a, b) => b.intersectionRatio - a.intersectionRatio)[0];
+
+      if (visible) {
+        setActiveToc(visible.target.id);
+      }
+    }, {
+      rootMargin: '-18% 0px -58% 0px',
+      threshold: [0.08, 0.18, 0.32, 0.5]
+    });
+
+    sections.forEach((section) => observer.observe(section));
+
+    if (location.hash) {
+      const activeSection = document.querySelector(location.hash);
+      if (activeSection) {
+        setActiveToc(activeSection.id);
+      }
+    } else if (sections[0]) {
+      setActiveToc(sections[0].id);
+    }
+  </script>
+</body>
+</html>

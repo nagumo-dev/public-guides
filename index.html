@@ -150,19 +150,19 @@
       overflow-wrap: anywhere;
     }
 
-    .guide-grid {
+    .guide-list {
       display: grid;
-      grid-template-columns: repeat(2, minmax(0, 1fr));
-      gap: 14px;
+      grid-template-columns: 1fr;
+      gap: 12px;
       margin-top: 16px;
     }
 
     .guide-card {
-      display: flex;
-      min-height: 210px;
-      flex-direction: column;
-      justify-content: space-between;
-      gap: 18px;
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) auto;
+      min-height: 132px;
+      gap: 16px;
+      align-items: center;
       padding: 18px;
       border: 1px solid var(--line);
       border-radius: var(--radius);
@@ -208,11 +208,20 @@
       color: var(--muted);
     }
 
+    .guide-main {
+      min-width: 0;
+    }
+
     .status-row {
       display: flex;
       flex-wrap: wrap;
       gap: 8px;
       align-items: center;
+    }
+
+    .guide-meta {
+      justify-content: flex-end;
+      min-width: 210px;
     }
 
     .tag {
@@ -312,9 +321,19 @@
     }
 
     @media (max-width: 820px) {
-      .guide-grid,
+      .guide-list,
       .note-grid {
         grid-template-columns: 1fr;
+      }
+
+      .guide-card {
+        grid-template-columns: 1fr;
+        align-items: stretch;
+      }
+
+      .guide-meta {
+        justify-content: flex-start;
+        min-width: 0;
       }
 
       .footer-inner {
@@ -336,7 +355,7 @@
       }
 
       .guide-card {
-        min-height: 190px;
+        min-height: 0;
       }
     }
   </style>
@@ -345,7 +364,7 @@
   <header>
     <div class="hero">
       <p class="eyebrow">Public Technical Notes</p>
-      <h1>Nagumo Public Guides</h1>
+      <h1>Nagumo Public Guides (WIP)</h1>
       <p class="subtitle">Kumpulan guide teknis yang dibuat untuk sharing. Fokusnya practical setup, workflow, dan catatan yang bisa langsung dicoba tanpa context private.</p>
       <div class="meta-row" aria-label="Informasi site">
         <span class="meta-pill">Author: <strong>&nbsp;Nagumo</strong></span>
@@ -360,13 +379,13 @@
       <h2>Available Guides</h2>
       <p>Guide yang sudah siap dibaca. Pilih topik, buka halamannya, lalu ikuti langkah yang relevan.</p>
 
-      <div class="guide-grid">
+      <div class="guide-list">
         <a class="guide-card primary" href="./codex-multi-profile/">
-          <div>
+          <div class="guide-main">
             <h3>Codex Multi-Profile Guide</h3>
             <p>Setup beberapa akun Codex di satu komputer memakai <code>CODEX_HOME</code>, termasuk login, logout, <code>/status</code>, skills, MCP, dan session separation.</p>
           </div>
-          <div class="status-row">
+          <div class="status-row guide-meta">
             <span class="tag">Codex</span>
             <span class="tag">macOS/Linux</span>
             <span class="tag">Ready</span>
@@ -374,36 +393,74 @@
           </div>
         </a>
 
-        <div class="guide-card secondary">
-          <div>
-            <h3>GitHub Static Publishing</h3>
-            <p>Next guide tentang publish static HTML ke GitHub Pages, dari repo baru sampai halaman live.</p>
+        <a class="guide-card secondary" href="./kilo-zai-glm51/">
+          <div class="guide-main">
+            <h3>Kilo CLI + Z.AI GLM-5.1 Guide</h3>
+            <p>Setup Kilo CLI dengan Z.AI GLM-5.1, dari install package, API key, endpoint Coding Plan, config <code>opencode.json</code>, sampai verify.</p>
           </div>
-          <div class="status-row">
+          <div class="status-row guide-meta">
+            <span class="tag">Kilo</span>
+            <span class="tag">Z.AI</span>
+            <span class="tag">Ready</span>
+            <span class="arrow">Open</span>
+          </div>
+        </a>
+      </div>
+    </section>
+
+    <section>
+      <h2>Planned Guides</h2>
+      <p>Topik yang kemungkinan akan ditulis berikutnya. Belum available, jadi belum ada link publik.</p>
+
+      <div class="guide-list">
+        <div class="guide-card secondary">
+          <div class="guide-main">
+            <h3>GitHub Static Publishing</h3>
+            <p>Guide tentang publish static HTML ke GitHub Pages, dari repo baru sampai halaman live.</p>
+          </div>
+          <div class="status-row guide-meta">
             <span class="tag">GitHub</span>
             <span class="tag">Planned</span>
           </div>
         </div>
 
         <div class="guide-card tertiary">
-          <div>
+          <div class="guide-main">
             <h3>AI Agent Workflow</h3>
-            <p>Next guide tentang membagi task agent, menjaga scope file, dan membaca diff sebelum menerima patch.</p>
+            <p>Guide tentang membagi task agent, menjaga scope file, dan membaca diff sebelum menerima patch.</p>
           </div>
-          <div class="status-row">
+          <div class="status-row guide-meta">
             <span class="tag">Workflow</span>
             <span class="tag">Planned</span>
           </div>
         </div>
 
         <div class="guide-card quaternary">
-          <div>
+          <div class="guide-main">
             <h3>Developer Setup Notes</h3>
-            <p>Next guide tentang terminal, shell profile, dotfiles, dan struktur folder kerja yang portable.</p>
+            <p>Guide tentang terminal, shell profile, dotfiles, dan struktur folder kerja yang portable.</p>
           </div>
-          <div class="status-row">
+          <div class="status-row guide-meta">
             <span class="tag">Setup</span>
             <span class="tag">Planned</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <h2>Hobby</h2>
+      <p>Space untuk guide yang lebih santai: personal tools, creative workflow, game notes, media pipeline, atau eksperimen yang tidak harus masuk kategori developer setup.</p>
+
+      <div class="guide-list">
+        <div class="guide-card secondary">
+          <div class="guide-main">
+            <h3>Coming Soon</h3>
+            <p>Belum ada hobby guide yang dipublish. Section ini disiapkan supaya topik non-work tetap punya tempat yang rapi.</p>
+          </div>
+          <div class="status-row guide-meta">
+            <span class="tag">Hobby</span>
+            <span class="tag">Open slot</span>
           </div>
         </div>
       </div>
