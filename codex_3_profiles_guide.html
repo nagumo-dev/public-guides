@@ -1,0 +1,1185 @@
+<!doctype html>
+<html lang="id">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Codex Multi-Profile Guide</title>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%230f766e'/%3E%3Cpath d='M9 10h14v3H9zm0 5h10v3H9zm0 5h14v3H9z' fill='white'/%3E%3C/svg%3E">
+  <style>
+    :root {
+      --bg: #f4f6fb;
+      --panel: #ffffff;
+      --ink: #18212f;
+      --muted: #5f6b7a;
+      --line: #d9dee7;
+      --accent: #0f766e;
+      --accent-dark: #0b5751;
+      --accent-soft: #e5f5f2;
+      --blue: #2563eb;
+      --blue-soft: #eaf1ff;
+      --rose: #c2410c;
+      --rose-soft: #fff1e8;
+      --violet: #6d28d9;
+      --violet-soft: #f1ebff;
+      --warn: #805600;
+      --warn-soft: #fff5da;
+      --danger: #9f241b;
+      --danger-soft: #fff0ee;
+      --code-bg: #101820;
+      --code-ink: #eaf2f1;
+      --radius: 8px;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      margin: 0;
+      background: var(--bg);
+      color: var(--ink);
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      line-height: 1.55;
+    }
+
+    header {
+      border-bottom: 1px solid var(--line);
+      background: rgba(255, 255, 255, .82);
+      backdrop-filter: blur(14px);
+    }
+
+    .hero {
+      max-width: 1120px;
+      margin: 0 auto;
+      padding: 46px 24px 32px;
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      margin: 0 0 14px;
+      color: var(--accent-dark);
+      font-size: .78rem;
+      font-weight: 800;
+      letter-spacing: 0;
+      text-transform: uppercase;
+    }
+
+    .eyebrow::before {
+      content: "";
+      width: 10px;
+      height: 10px;
+      border-radius: 3px;
+      background: var(--accent);
+    }
+
+    h1 {
+      margin: 0 0 12px;
+      font-size: clamp(2rem, 5vw, 3.7rem);
+      line-height: 1;
+      letter-spacing: 0;
+    }
+
+    .subtitle {
+      max-width: 780px;
+      margin: 0;
+      color: var(--muted);
+      font-size: 1.06rem;
+    }
+
+    .meta-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 18px;
+    }
+
+    .meta-pill {
+      display: inline-flex;
+      align-items: center;
+      min-height: 34px;
+      padding: 6px 11px;
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      background: #fff;
+      color: var(--muted);
+      font-size: .9rem;
+    }
+
+    .meta-pill strong {
+      color: var(--ink);
+    }
+
+    main {
+      max-width: 1120px;
+      margin: 0 auto;
+      padding: 24px;
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) 272px;
+      gap: 24px;
+      align-items: start;
+    }
+
+    nav {
+      position: sticky;
+      top: 16px;
+      align-self: start;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background: rgba(255, 255, 255, .92);
+      box-shadow: 0 18px 40px rgba(24, 33, 47, .08);
+      padding: 14px;
+      order: 2;
+      max-height: calc(100vh - 32px);
+      overflow: auto;
+    }
+
+    .toc-title {
+      margin: 0 0 8px;
+      padding: 0 4px 9px;
+      border-bottom: 1px solid var(--line);
+      color: var(--muted);
+      font-size: .78rem;
+      font-weight: 800;
+      letter-spacing: 0;
+      text-transform: uppercase;
+    }
+
+    .toc-group {
+      margin: 10px 0 14px;
+    }
+
+    .toc-group:last-child {
+      margin-bottom: 0;
+    }
+
+    .toc-group-title {
+      margin: 0 0 6px;
+      padding: 0 8px;
+      color: var(--accent-dark);
+      font-size: .76rem;
+      font-weight: 800;
+      text-transform: uppercase;
+    }
+
+    nav a {
+      display: flex;
+      align-items: flex-start;
+      gap: 8px;
+      min-height: 38px;
+      padding: 7px 8px;
+      margin: 2px 0;
+      color: var(--ink);
+      text-decoration: none;
+      border-radius: 6px;
+      font-size: .86rem;
+      line-height: 1.25;
+      border: 1px solid transparent;
+    }
+
+    nav a::before {
+      content: "";
+      flex: 0 0 auto;
+      width: 7px;
+      height: 7px;
+      border-radius: 2px;
+      background: #c5cedb;
+      margin-top: 5px;
+    }
+
+    nav a:hover {
+      background: var(--accent-soft);
+      color: var(--accent-dark);
+    }
+
+    nav a:hover::before {
+      background: var(--accent);
+    }
+
+    nav a.active {
+      border-color: #9bd4cb;
+      background: var(--accent-soft);
+      color: var(--accent-dark);
+      box-shadow: inset 3px 0 0 var(--accent);
+    }
+
+    nav a.active::before {
+      background: var(--accent);
+    }
+
+    .toc-label {
+      display: block;
+      font-weight: 700;
+    }
+
+    .toc-desc {
+      display: block;
+      margin-top: 2px;
+      color: var(--muted);
+      font-size: .75rem;
+      line-height: 1.25;
+    }
+
+    nav a.active .toc-desc,
+    nav a:hover .toc-desc {
+      color: var(--accent-dark);
+    }
+
+    .toc-sub {
+      padding-left: 14px;
+    }
+
+    .toc-sub a {
+      min-height: 34px;
+      padding-top: 6px;
+      padding-bottom: 6px;
+    }
+
+    footer {
+      border-top: 1px solid var(--line);
+      background: #fff;
+    }
+
+    .footer-inner {
+      max-width: 1120px;
+      margin: 0 auto;
+      padding: 24px;
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) auto;
+      gap: 16px;
+      align-items: center;
+      color: var(--muted);
+      font-size: .92rem;
+    }
+
+    .footer-title {
+      margin: 0 0 4px;
+      color: var(--ink);
+      font-weight: 800;
+    }
+
+    .footer-copy {
+      margin: 0;
+    }
+
+    .footer-links {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      justify-content: flex-end;
+    }
+
+    .footer-links a {
+      display: inline-flex;
+      align-items: center;
+      min-height: 32px;
+      padding: 5px 10px;
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      color: var(--ink);
+      text-decoration: none;
+      background: #fff;
+    }
+
+    .footer-links a:hover {
+      border-color: #9bd4cb;
+      background: var(--accent-soft);
+      color: var(--accent-dark);
+    }
+
+    .content {
+      min-width: 0;
+      order: 1;
+    }
+
+    section {
+      scroll-margin-top: 18px;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background: var(--panel);
+      padding: 24px;
+      margin-bottom: 18px;
+      box-shadow: 0 14px 34px rgba(24, 33, 47, .06);
+      position: relative;
+      overflow: hidden;
+    }
+
+    section::before {
+      content: "";
+      position: absolute;
+      inset: 0 auto 0 0;
+      width: 4px;
+      background: var(--accent);
+    }
+
+    section:nth-of-type(3n + 1)::before {
+      background: var(--accent);
+    }
+
+    section:nth-of-type(3n + 2)::before {
+      background: var(--blue);
+    }
+
+    section:nth-of-type(3n + 3)::before {
+      background: var(--rose);
+    }
+
+    h2 {
+      margin: 0 0 14px;
+      font-size: 1.35rem;
+      letter-spacing: 0;
+    }
+
+    h3 {
+      margin: 22px 0 10px;
+      font-size: 1rem;
+      letter-spacing: 0;
+    }
+
+    p {
+      margin: 0 0 12px;
+    }
+
+    ul,
+    ol {
+      margin: 0 0 14px;
+      padding-left: 22px;
+    }
+
+    li {
+      margin: 6px 0;
+    }
+
+    code {
+      padding: 2px 5px;
+      border-radius: 4px;
+      background: #eef1f5;
+      color: #1b2a37;
+      font-family: "SFMono-Regular", Consolas, Menlo, monospace;
+      font-size: .92em;
+      overflow-wrap: anywhere;
+    }
+
+    pre {
+      overflow: auto;
+      margin: 12px 0 18px;
+      padding: 14px;
+      border-radius: var(--radius);
+      background: var(--code-bg);
+      color: var(--code-ink);
+      font-size: .9rem;
+      line-height: 1.45;
+    }
+
+    pre code {
+      padding: 0;
+      background: transparent;
+      color: inherit;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 12px 0 18px;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      overflow: hidden;
+    }
+
+    th,
+    td {
+      border-bottom: 1px solid var(--line);
+      padding: 10px 12px;
+      text-align: left;
+      vertical-align: top;
+    }
+
+    th {
+      background: #eef3f7;
+      font-weight: 700;
+    }
+
+    tr:last-child td {
+      border-bottom: 0;
+    }
+
+    .note,
+    .warning,
+    .danger {
+      border-radius: var(--radius);
+      padding: 12px 14px;
+      margin: 12px 0 18px;
+      border: 1px solid transparent;
+    }
+
+    .note {
+      background: var(--accent-soft);
+      border-color: #a8dcd4;
+    }
+
+    .warning {
+      background: var(--warn-soft);
+      border-color: #f1cf7a;
+      color: var(--warn);
+    }
+
+    .danger {
+      background: var(--danger-soft);
+      border-color: #f0aaa4;
+      color: var(--danger);
+    }
+
+    .urgency-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 12px;
+      margin: 16px 0 18px;
+    }
+
+    .urgency-card {
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      padding: 14px;
+      background: #fff;
+    }
+
+    .urgency-card h3 {
+      margin: 0 0 7px;
+      font-size: .98rem;
+    }
+
+    .urgency-card p {
+      margin: 0;
+      color: var(--muted);
+      font-size: .94rem;
+    }
+
+    .urgency-card:nth-child(1) {
+      background: var(--accent-soft);
+      border-color: #b5ddd7;
+    }
+
+    .urgency-card:nth-child(2) {
+      background: var(--blue-soft);
+      border-color: #c6d8ff;
+    }
+
+    .urgency-card:nth-child(3) {
+      background: var(--rose-soft);
+      border-color: #ffd3bd;
+    }
+
+    .urgency-card:nth-child(4) {
+      background: var(--violet-soft);
+      border-color: #dacbff;
+    }
+
+    .checklist {
+      list-style: none;
+      padding-left: 0;
+    }
+
+    .checklist li {
+      padding-left: 26px;
+      position: relative;
+    }
+
+    .checklist li::before {
+      content: "";
+      position: absolute;
+      left: 0;
+      top: .45em;
+      width: 14px;
+      height: 14px;
+      border: 2px solid var(--accent);
+      border-radius: 4px;
+    }
+
+    @media (max-width: 860px) {
+      main {
+        grid-template-columns: 1fr;
+      }
+
+      nav {
+        position: static;
+        order: 1;
+        max-height: none;
+      }
+
+      .content {
+        order: 2;
+      }
+
+      .footer-inner {
+        grid-template-columns: 1fr;
+      }
+
+      .footer-links {
+        justify-content: flex-start;
+      }
+    }
+
+    @media (max-width: 640px) {
+      .urgency-grid {
+        grid-template-columns: 1fr;
+      }
+
+      section {
+        padding: 20px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="hero">
+      <p class="eyebrow">Codex Account Isolation</p>
+      <h1>Codex Multi-Profile Guide</h1>
+      <p class="subtitle">Panduan umum untuk menjalankan beberapa akun Codex di satu komputer tanpa logout-login berulang. Cocok untuk akun personal, akun kerja, akun tim, atau beberapa subscription berbeda.</p>
+      <div class="meta-row" aria-label="Informasi dokumen">
+        <span class="meta-pill">Author: <strong>&nbsp;Nagumo</strong></span>
+        <span class="meta-pill">Platform: macOS, Linux, shell-based setup</span>
+        <span class="meta-pill">Core idea: isolated <code>CODEX_HOME</code></span>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <nav aria-label="Daftar isi">
+      <p class="toc-title">Daftar Isi</p>
+      <div class="toc-group">
+        <p class="toc-group-title">Overview</p>
+        <a href="#why">
+          <span>
+            <span class="toc-label">Kenapa Perlu</span>
+            <span class="toc-desc">Urgensi isolasi akun, quota, dan akses.</span>
+          </span>
+        </a>
+        <div class="toc-sub">
+          <a href="#concept">
+            <span>
+              <span class="toc-label">Konsep CODEX_HOME</span>
+              <span class="toc-desc">Cara Codex memilih folder profile.</span>
+            </span>
+          </a>
+          <a href="#profiles">
+            <span>
+              <span class="toc-label">Contoh Profile</span>
+              <span class="toc-desc">Nama folder dan command pendek.</span>
+            </span>
+          </a>
+        </div>
+      </div>
+
+      <div class="toc-group">
+        <p class="toc-group-title">Setup</p>
+        <a href="#setup">
+          <span>
+            <span class="toc-label">Setup Awal</span>
+            <span class="toc-desc">Validasi, backup, dan folder profile.</span>
+          </span>
+        </a>
+        <div class="toc-sub">
+          <a href="#shell">
+            <span>
+              <span class="toc-label">Shell Functions</span>
+              <span class="toc-desc">Shortcut command di shell.</span>
+            </span>
+          </a>
+          <a href="#skills-mcp">
+            <span>
+              <span class="toc-label">Skills & MCP</span>
+              <span class="toc-desc">Tooling per profile atau shared.</span>
+            </span>
+          </a>
+        </div>
+      </div>
+
+      <div class="toc-group">
+        <p class="toc-group-title">Operasional</p>
+        <a href="#usage">
+          <span>
+            <span class="toc-label">Cara Pakai</span>
+            <span class="toc-desc">Menjalankan Codex dari profile tertentu.</span>
+          </span>
+        </a>
+        <div class="toc-sub">
+          <a href="#login">
+            <span>
+              <span class="toc-label">Login</span>
+              <span class="toc-desc">Masuk akun satu per satu.</span>
+            </span>
+          </a>
+          <a href="#status">
+            <span>
+              <span class="toc-label">Cek /status</span>
+              <span class="toc-desc">Pastikan akun aktif benar.</span>
+            </span>
+          </a>
+          <a href="#logout">
+            <span>
+              <span class="toc-label">Logout</span>
+              <span class="toc-desc">Keluar dari profile tertentu saja.</span>
+            </span>
+          </a>
+        </div>
+      </div>
+
+      <div class="toc-group">
+        <p class="toc-group-title">Lanjutan</p>
+        <a href="#sessions">
+          <span>
+            <span class="toc-label">Session Chat</span>
+            <span class="toc-desc">Riwayat dan resume context terpisah.</span>
+          </span>
+        </a>
+        <div class="toc-sub">
+          <a href="#add-profile">
+            <span>
+              <span class="toc-label">Tambah Profile Baru</span>
+              <span class="toc-desc">Template untuk akun ke-4 dan seterusnya.</span>
+            </span>
+          </a>
+          <a href="#repo">
+            <span>
+              <span class="toc-label">Kerja di Repo Sama</span>
+              <span class="toc-desc">Atur parallel agent agar tidak bentrok.</span>
+            </span>
+          </a>
+        </div>
+      </div>
+
+      <div class="toc-group">
+        <p class="toc-group-title">Safety</p>
+        <a href="#security">
+          <span>
+            <span class="toc-label">Security Notes</span>
+            <span class="toc-desc">Credential, token, dan batas akses.</span>
+          </span>
+        </a>
+        <a href="#troubleshooting">
+          <span>
+            <span class="toc-label">Troubleshooting</span>
+            <span class="toc-desc">Function, login, dan akun salah.</span>
+          </span>
+        </a>
+      </div>
+    </nav>
+
+    <div class="content">
+      <section id="why">
+        <h2>Kenapa Perlu</h2>
+        <p>Multi-profile jadi penting saat satu komputer dipakai untuk beberapa identitas Codex: akun personal, akun kerja, akun client, akun tim, atau subscription yang berbeda. Tanpa isolasi, semua login, session, config, dan sebagian integrasi lokal bisa tercampur di satu folder default.</p>
+
+        <div class="urgency-grid">
+          <div class="urgency-card">
+            <h3>Menghindari salah akun</h3>
+            <p>Task kerja bisa tidak sengaja jalan dari akun personal, atau sebaliknya. Ini rawan untuk billing, audit, dan akses workspace.</p>
+          </div>
+          <div class="urgency-card">
+            <h3>Memisahkan quota dan subscription</h3>
+            <p>Kalau tiap akun punya limit atau paket berbeda, profile terpisah membuat pemakaian lebih jelas dan mudah dicek lewat <code>/status</code>.</p>
+          </div>
+          <div class="urgency-card">
+            <h3>Menjaga konteks dan riwayat</h3>
+            <p>Session chat, resume context, dan state lokal tidak bercampur antar akun, sehingga lebih mudah tahu agent mana mengerjakan apa.</p>
+          </div>
+          <div class="urgency-card">
+            <h3>Mengontrol tool dan akses</h3>
+            <p>Skills, MCP, dan config bisa dibuat berbeda per profile. Akun kerja bisa lebih ketat, akun personal bisa lebih bebas.</p>
+          </div>
+        </div>
+
+        <p>Solusinya: buat beberapa folder profile, lalu jalankan Codex dengan <code>CODEX_HOME</code> berbeda untuk tiap akun.</p>
+        <div class="note">
+          Satu profile Codex = satu folder <code>CODEX_HOME</code> = satu login/session/config lokal.
+        </div>
+      </section>
+
+      <section id="concept">
+        <h2>Konsep CODEX_HOME</h2>
+        <p><code>CODEX_HOME</code> adalah environment variable yang memberi tahu Codex lokasi folder config dan auth yang harus dipakai.</p>
+
+        <table>
+          <thead>
+            <tr>
+              <th>Command</th>
+              <th>Efek</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><code>codex</code></td>
+              <td>Memakai folder default <code>~/.codex</code>.</td>
+            </tr>
+            <tr>
+              <td><code>CODEX_HOME="$HOME/.codex-main" codex</code></td>
+              <td>Memakai folder profile <code>~/.codex-main</code>.</td>
+            </tr>
+            <tr>
+              <td><code>CODEX_HOME="$HOME/.codex-work" codex</code></td>
+              <td>Memakai folder profile <code>~/.codex-work</code>.</td>
+            </tr>
+          </tbody>
+        </table>
+
+        <p>Karena profile beda folder, tiap profile bisa punya akun login berbeda.</p>
+      </section>
+
+      <section id="profiles">
+        <h2>Contoh Profile</h2>
+        <p>Nama profile bebas. Contoh generic:</p>
+
+        <table>
+          <thead>
+            <tr>
+              <th>Kebutuhan</th>
+              <th>Folder</th>
+              <th>Command pendek</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Akun utama/personal</td>
+              <td><code>~/.codex-main</code></td>
+              <td><code>codex-main</code></td>
+            </tr>
+            <tr>
+              <td>Akun kerja pertama</td>
+              <td><code>~/.codex-work-1</code></td>
+              <td><code>codex-work1</code></td>
+            </tr>
+            <tr>
+              <td>Akun kerja kedua</td>
+              <td><code>~/.codex-work-2</code></td>
+              <td><code>codex-work2</code></td>
+            </tr>
+          </tbody>
+        </table>
+
+        <p>Kalau ingin nama lain, ganti saja folder dan function. Contoh: <code>~/.codex-client-a</code>, <code>~/.codex-team</code>, atau <code>~/.codex-alt</code>.</p>
+      </section>
+
+      <section id="setup">
+        <h2>Setup Awal</h2>
+        <h3>1. Pastikan Codex sudah terinstall</h3>
+        <pre><code>which codex
+codex --version
+echo "$SHELL"
+echo "$HOME"</code></pre>
+
+        <p>Kalau <code>codex</code> tidak ditemukan, install Codex dulu sesuai dokumentasi resmi yang berlaku.</p>
+
+        <h3>2. Backup folder default</h3>
+        <pre><code>cp -R "$HOME/.codex" "$HOME/.codex.backup.$(date +%Y%m%d-%H%M%S)"</code></pre>
+
+        <p>Step ini hanya perlu kalau <code>~/.codex</code> sudah ada.</p>
+
+        <h3>3. Buat folder profile</h3>
+        <pre><code>mkdir -p "$HOME/.codex-main"
+mkdir -p "$HOME/.codex-work-1"
+mkdir -p "$HOME/.codex-work-2"</code></pre>
+
+        <h3>4. Copy config default kalau ada</h3>
+        <pre><code>cp "$HOME/.codex/config.toml" "$HOME/.codex-main/config.toml"
+cp "$HOME/.codex/config.toml" "$HOME/.codex-work-1/config.toml"
+cp "$HOME/.codex/config.toml" "$HOME/.codex-work-2/config.toml"</code></pre>
+
+        <div class="danger">
+          Jangan copy <code>auth.json</code> antar profile. File itu berisi data login/token.
+        </div>
+      </section>
+
+      <section id="shell">
+        <h2>Shell Functions</h2>
+        <p>Tambahkan block ini ke <code>~/.zshrc</code> untuk macOS zsh. Kalau memakai bash, taruh di <code>~/.bashrc</code> atau <code>~/.bash_profile</code>.</p>
+
+        <pre><code># &gt;&gt;&gt; codex multi-profile setup &gt;&gt;&gt;
+export CODEX_PROJECTS_DIR="$HOME/projects"
+
+codex-main() {
+  CODEX_HOME="$HOME/.codex-main" codex "$@"
+}
+
+codex-work1() {
+  CODEX_HOME="$HOME/.codex-work-1" codex "$@"
+}
+
+codex-work2() {
+  CODEX_HOME="$HOME/.codex-work-2" codex "$@"
+}
+
+codex-main-projects() {
+  cd "$CODEX_PROJECTS_DIR" && CODEX_HOME="$HOME/.codex-main" codex "$@"
+}
+
+codex-work1-projects() {
+  cd "$CODEX_PROJECTS_DIR" && CODEX_HOME="$HOME/.codex-work-1" codex "$@"
+}
+
+codex-work2-projects() {
+  cd "$CODEX_PROJECTS_DIR" && CODEX_HOME="$HOME/.codex-work-2" codex "$@"
+}
+# &lt;&lt;&lt; codex multi-profile setup &lt;&lt;&lt;</code></pre>
+
+        <p>Sesuaikan <code>CODEX_PROJECTS_DIR</code> dengan folder kerja masing-masing. Contoh: <code>$HOME/projects</code>, <code>$HOME/work</code>, atau <code>$HOME/dev</code>.</p>
+
+        <h3>Reload shell</h3>
+        <pre><code>source ~/.zshrc</code></pre>
+
+        <h3>Validasi function</h3>
+        <pre><code>type codex-main
+type codex-work1
+type codex-work2
+type codex-main-projects
+type codex-work1-projects
+type codex-work2-projects</code></pre>
+      </section>
+
+      <section id="skills-mcp">
+        <h2>Skills & MCP</h2>
+        <p>Multi-profile tidak hanya memisahkan login. Ia juga bisa memisahkan config, skills, MCP server settings, dan session lokal, tergantung file apa saja yang ada di masing-masing folder <code>CODEX_HOME</code>.</p>
+
+        <table>
+          <thead>
+            <tr>
+              <th>Item</th>
+              <th>Biasanya ada di</th>
+              <th>Efek multi-profile</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Login/token</td>
+              <td><code>$CODEX_HOME/auth.json</code></td>
+              <td>Harus berbeda per profile. Jangan dicopy antar profile.</td>
+            </tr>
+            <tr>
+              <td>Codex config</td>
+              <td><code>$CODEX_HOME/config.toml</code></td>
+              <td>Bisa dicopy kalau ingin setting sama. Review dulu kalau config berisi credential.</td>
+            </tr>
+            <tr>
+              <td>Skills</td>
+              <td><code>$CODEX_HOME/skills/</code> atau lokasi lain sesuai setup</td>
+              <td>Bisa dipisah per profile, dicopy, atau dibuat shared via symlink.</td>
+            </tr>
+            <tr>
+              <td>MCP servers</td>
+              <td>Umumnya di <code>config.toml</code></td>
+              <td>Profile yang berbeda bisa punya MCP server berbeda.</td>
+            </tr>
+          </tbody>
+        </table>
+
+        <h3>Opsi 1: Skills dipisah per profile</h3>
+        <p>Pakai opsi ini kalau tiap akun punya workflow berbeda. Misalnya akun personal punya skill eksperimen, akun kerja hanya punya skill yang aman untuk repo kerja.</p>
+        <pre><code>mkdir -p "$HOME/.codex-main/skills"
+mkdir -p "$HOME/.codex-work-1/skills"
+mkdir -p "$HOME/.codex-work-2/skills"</code></pre>
+
+        <h3>Opsi 2: Skills dishare antar profile</h3>
+        <p>Pakai opsi ini kalau ingin semua profile memakai skill yang sama. Simpan skill di satu folder shared, lalu symlink ke tiap <code>CODEX_HOME</code>.</p>
+        <pre><code>mkdir -p "$HOME/codex-shared-skills"
+
+ln -s "$HOME/codex-shared-skills" "$HOME/.codex-main/skills"
+ln -s "$HOME/codex-shared-skills" "$HOME/.codex-work-1/skills"
+ln -s "$HOME/codex-shared-skills" "$HOME/.codex-work-2/skills"</code></pre>
+
+        <div class="warning">
+          Kalau folder <code>skills</code> sudah ada, jangan langsung overwrite dengan symlink. Backup atau merge dulu.
+        </div>
+
+        <h3>MCP per profile</h3>
+        <p>Jika MCP server dikonfigurasi di <code>config.toml</code>, maka tiap profile bisa punya MCP list sendiri.</p>
+
+        <pre><code># contoh: lihat config profile tertentu
+open "$HOME/.codex-main/config.toml"
+open "$HOME/.codex-work-1/config.toml"
+open "$HOME/.codex-work-2/config.toml"</code></pre>
+
+        <p>Kalau ingin semua profile punya MCP sama, copy bagian MCP config ke semua <code>config.toml</code>. Kalau ingin akun kerja lebih terbatas, hapus MCP yang tidak perlu dari profile kerja.</p>
+
+        <h3>Credential MCP</h3>
+        <p>MCP credential bisa datang dari beberapa tempat: environment variable shell, file credential tool eksternal, browser login, atau isi config. Efeknya beda:</p>
+
+        <table>
+          <thead>
+            <tr>
+              <th>Sumber credential</th>
+              <th>Efek</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Environment variable shell</td>
+              <td>Semua profile bisa melihat env yang sama, kecuali function mengatur env berbeda.</td>
+            </tr>
+            <tr>
+              <td>Credential di config</td>
+              <td>Ikut kalau <code>config.toml</code> dicopy. Hindari menyimpan secret langsung di config.</td>
+            </tr>
+            <tr>
+              <td>Credential tool eksternal</td>
+              <td>Bisa tetap shared di luar <code>CODEX_HOME</code>, tergantung tool MCP-nya.</td>
+            </tr>
+            <tr>
+              <td>Auth di dalam <code>CODEX_HOME</code></td>
+              <td>Terpisah per profile.</td>
+            </tr>
+          </tbody>
+        </table>
+
+        <h3>Env berbeda per profile</h3>
+        <p>Kalau MCP butuh token berbeda per akun, set env di function profile masing-masing.</p>
+
+        <pre><code>codex-main() {
+  MCP_API_TOKEN="$MAIN_MCP_API_TOKEN" CODEX_HOME="$HOME/.codex-main" codex "$@"
+}
+
+codex-work1() {
+  MCP_API_TOKEN="$WORK1_MCP_API_TOKEN" CODEX_HOME="$HOME/.codex-work-1" codex "$@"
+}</code></pre>
+
+        <div class="danger">
+          Jangan taruh token asli langsung di HTML, README publik, atau dotfile yang akan dishare. Gunakan secret manager, env lokal, atau file private yang tidak masuk git.
+        </div>
+      </section>
+
+      <section id="usage">
+        <h2>Cara Pakai</h2>
+        <h3>Jalankan dari folder saat ini</h3>
+        <pre><code>codex-main
+codex-work1
+codex-work2</code></pre>
+
+        <h3>Jalankan langsung dari folder projects</h3>
+        <pre><code>codex-main-projects
+codex-work1-projects
+codex-work2-projects</code></pre>
+
+        <h3>Kirim argumen ke Codex</h3>
+        <pre><code>codex-main -C "$HOME/projects/my-app"
+codex-work1 -C "$HOME/projects/my-app"
+codex-work2 -C "$HOME/projects/my-app"</code></pre>
+
+        <p>Semua argumen setelah function akan diteruskan ke command <code>codex</code>.</p>
+      </section>
+
+      <section id="login">
+        <h2>Login</h2>
+        <p>Login harus dilakukan per profile. Jalankan satu-satu, lalu pilih akun yang sesuai di browser.</p>
+
+        <pre><code>CODEX_HOME="$HOME/.codex-main" codex login
+CODEX_HOME="$HOME/.codex-work-1" codex login
+CODEX_HOME="$HOME/.codex-work-2" codex login</code></pre>
+
+        <div class="warning">
+          Selesaikan login satu profile dulu sebelum lanjut ke profile berikutnya. Ini membantu menghindari salah akun saat browser redirect.
+        </div>
+      </section>
+
+      <section id="status">
+        <h2>Cek /status</h2>
+        <p>Setelah login, buka Codex dari masing-masing profile lalu jalankan <code>/status</code> di dalam Codex.</p>
+
+        <pre><code>codex-main</code></pre>
+        <pre><code>/status</code></pre>
+
+        <pre><code>codex-work1</code></pre>
+        <pre><code>/status</code></pre>
+
+        <pre><code>codex-work2</code></pre>
+        <pre><code>/status</code></pre>
+
+        <p>Pastikan akun, workspace, atau subscription yang tampil sesuai profile yang sedang dipakai.</p>
+      </section>
+
+      <section id="logout">
+        <h2>Logout</h2>
+        <p>Logout hanya memengaruhi profile yang dipilih. Profile lain tetap login.</p>
+
+        <pre><code>CODEX_HOME="$HOME/.codex-main" codex logout
+CODEX_HOME="$HOME/.codex-work-1" codex logout
+CODEX_HOME="$HOME/.codex-work-2" codex logout</code></pre>
+
+        <p>Login ulang profile tertentu:</p>
+        <pre><code>CODEX_HOME="$HOME/.codex-work-1" codex login</code></pre>
+      </section>
+
+      <section id="sessions">
+        <h2>Session Chat</h2>
+        <p>Session chat terpisah per <code>CODEX_HOME</code>. Jadi session dari <code>codex-work1</code> tidak otomatis muncul atau bisa dilanjutkan dari <code>codex-work2</code>.</p>
+
+        <table>
+          <thead>
+            <tr>
+              <th>Profile aktif</th>
+              <th>Yang dipakai</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><code>codex-main</code></td>
+              <td>Auth, config, dan session dari <code>~/.codex-main</code>.</td>
+            </tr>
+            <tr>
+              <td><code>codex-work1</code></td>
+              <td>Auth, config, dan session dari <code>~/.codex-work-1</code>.</td>
+            </tr>
+            <tr>
+              <td><code>codex-work2</code></td>
+              <td>Auth, config, dan session dari <code>~/.codex-work-2</code>.</td>
+            </tr>
+          </tbody>
+        </table>
+
+        <p>Kalau ingin lanjut konteks dari profile lain, buat ringkasan manual lalu paste ke session baru. Jangan memindahkan file credential.</p>
+      </section>
+
+      <section id="add-profile">
+        <h2>Tambah Profile Baru</h2>
+        <p>Misalnya ingin tambah profile ke-4 bernama <code>codex-work3</code>.</p>
+
+        <h3>1. Buat folder baru</h3>
+        <pre><code>mkdir -p "$HOME/.codex-work-3"</code></pre>
+
+        <h3>2. Copy config kalau ada</h3>
+        <pre><code>cp "$HOME/.codex/config.toml" "$HOME/.codex-work-3/config.toml"</code></pre>
+
+        <p>Lewati step ini kalau <code>~/.codex/config.toml</code> tidak ada.</p>
+
+        <h3>3. Tambah function ke file shell config</h3>
+        <pre><code>codex-work3() {
+  CODEX_HOME="$HOME/.codex-work-3" codex "$@"
+}
+
+codex-work3-projects() {
+  cd "$CODEX_PROJECTS_DIR" && CODEX_HOME="$HOME/.codex-work-3" codex "$@"
+}</code></pre>
+
+        <h3>4. Reload shell</h3>
+        <pre><code>source ~/.zshrc</code></pre>
+
+        <h3>5. Login</h3>
+        <pre><code>CODEX_HOME="$HOME/.codex-work-3" codex login</code></pre>
+
+        <h3>6. Verify</h3>
+        <pre><code>codex-work3</code></pre>
+        <pre><code>/status</code></pre>
+      </section>
+
+      <section id="repo">
+        <h2>Kerja di Repo Sama</h2>
+        <p>Boleh menjalankan beberapa profile Codex di repo yang sama, tapi jangan biarkan beberapa agent mengedit file yang sama secara bersamaan.</p>
+
+        <ul class="checklist">
+          <li>Satu agent fokus satu task.</li>
+          <li>Pisahkan area file yang diedit.</li>
+          <li>Minta agent menyebutkan file yang akan diedit sebelum mulai.</li>
+          <li>Cek <code>git diff</code> sebelum menerima perubahan.</li>
+          <li>Untuk task besar, pakai branch atau git worktree terpisah.</li>
+        </ul>
+
+        <h3>Contoh worktree</h3>
+        <pre><code>cd "$HOME/projects/my-repo"
+
+git worktree add ../my-repo-main -b codex/main
+git worktree add ../my-repo-work1 -b codex/work1
+git worktree add ../my-repo-work2 -b codex/work2</code></pre>
+      </section>
+
+      <section id="security">
+        <h2>Security Notes</h2>
+        <ul class="checklist">
+          <li>Jangan print isi <code>auth.json</code>.</li>
+          <li>Jangan copy <code>auth.json</code> antar profile.</li>
+          <li>Jangan share API key, password, token, <code>.env</code>, database dump, atau credential kerja.</li>
+          <li>Selalu cek <code>/status</code> sebelum mulai task penting.</li>
+          <li>Kalau akun bukan akun utama, treat sebagai worker account dengan akses seperlunya.</li>
+        </ul>
+      </section>
+
+      <section id="troubleshooting">
+        <h2>Troubleshooting</h2>
+        <h3>Function belum kebaca</h3>
+        <pre><code>source ~/.zshrc
+type codex-main
+type codex-work1
+type codex-work2</code></pre>
+        <p>Kalau masih belum kebaca, buka terminal baru.</p>
+
+        <h3>Salah login akun</h3>
+        <pre><code>CODEX_HOME="$HOME/.codex-work-1" codex logout
+CODEX_HOME="$HOME/.codex-work-1" codex login</code></pre>
+
+        <h3>CODEX_HOME kosong saat echo</h3>
+        <p>Normal kalau <code>echo "$CODEX_HOME"</code> kosong di shell biasa. Function di atas memberi <code>CODEX_HOME</code> hanya ke process <code>codex</code> yang sedang dijalankan.</p>
+
+        <h3>Codex masih pakai akun salah</h3>
+        <ol>
+          <li>Exit Codex.</li>
+          <li>Logout profile yang salah.</li>
+          <li>Login ulang profile itu.</li>
+          <li>Buka profile itu lagi.</li>
+          <li>Jalankan <code>/status</code>.</li>
+        </ol>
+      </section>
+    </div>
+  </main>
+  <footer>
+    <div class="footer-inner">
+      <div>
+        <p class="footer-title">Codex Multi-Profile Guide</p>
+        <p class="footer-copy">Written by Nagumo. Share freely, adapt carefully, and never publish credentials.</p>
+      </div>
+      <div class="footer-links" aria-label="Footer links">
+        <a href="#why">Start</a>
+        <a href="#security">Security</a>
+        <a href="#troubleshooting">Troubleshooting</a>
+      </div>
+    </div>
+  </footer>
+  <script>
+    const tocLinks = Array.from(document.querySelectorAll('nav a[href^="#"]'));
+    const sections = tocLinks
+      .map((link) => document.querySelector(link.getAttribute('href')))
+      .filter(Boolean);
+
+    const setActiveToc = (id) => {
+      tocLinks.forEach((link) => {
+        link.classList.toggle('active', link.getAttribute('href') === `#${id}`);
+      });
+    };
+
+    const observer = new IntersectionObserver((entries) => {
+      const visible = entries
+        .filter((entry) => entry.isIntersecting)
+        .sort((a, b) => b.intersectionRatio - a.intersectionRatio)[0];
+
+      if (visible) {
+        setActiveToc(visible.target.id);
+      }
+    }, {
+      rootMargin: '-18% 0px -58% 0px',
+      threshold: [0.08, 0.18, 0.32, 0.5]
+    });
+
+    sections.forEach((section) => observer.observe(section));
+
+    if (location.hash) {
+      const activeSection = document.querySelector(location.hash);
+      if (activeSection) {
+        setActiveToc(activeSection.id);
+      }
+    } else if (sections[0]) {
+      setActiveToc(sections[0].id);
+    }
+  </script>
+</body>
+</html>
