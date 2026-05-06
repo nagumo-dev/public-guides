@@ -514,7 +514,7 @@
       </div>
       <div class="toc-group">
         <p class="toc-group-title">Safety</p>
-        <a href="#security"><span><span class="toc-label">Security</span><span class="toc-desc">Jangan bocorkan API key.</span></span></a>
+        <a href="#security"><span><span class="toc-label">Security</span><span class="toc-desc">Credential dan permission Kilo.</span></span></a>
         <a href="#troubleshooting"><span><span class="toc-label">Troubleshooting</span><span class="toc-desc">Masalah umum dan fix cepat.</span></span></a>
         <a href="#references"><span><span class="toc-label">References</span><span class="toc-desc">Link docs resmi.</span></span></a>
       </div>
@@ -596,9 +596,6 @@ kilo</code></pre>
           <li>Create API key.</li>
           <li>Simpan key di tempat private.</li>
         </ol>
-        <div class="danger">
-          Jangan commit API key ke GitHub. Jangan taruh key asli di HTML, README, screenshot, atau chat publik.
-        </div>
         <p>Untuk GLM Coding Plan, gunakan endpoint Coding API:</p>
         <pre><code>https://api.z.ai/api/coding/paas/v4</code></pre>
       </section>
@@ -703,9 +700,8 @@ kilo</code></pre>
       <section id="security">
         <h2>Security</h2>
         <ul class="checklist">
-          <li>Jangan taruh API key asli di repo publik.</li>
-          <li>Jangan screenshot config yang berisi API key.</li>
-          <li>Kalau API key pernah muncul di chat publik, revoke dan buat key baru.</li>
+          <li>Simpan API key di config lokal atau credential flow Kilo.</li>
+          <li>Pakai placeholder saat menulis contoh config untuk dokumentasi.</li>
           <li>Pisahkan config personal, kerja, dan client kalau aksesnya berbeda.</li>
           <li>Review permission Kilo sebelum memberi auto-approve untuk edit atau shell command.</li>
         </ul>
