@@ -22,6 +22,7 @@
       --violet: #6d28d9;
       --violet-soft: #f1ebff;
       --radius: 8px;
+      --mascot: url("./assets/nagumo-dev-mascot.png");
     }
 
     * {
@@ -43,9 +44,34 @@
     }
 
     .hero {
+      position: relative;
+      overflow: hidden;
       max-width: 1120px;
+      min-height: 320px;
       margin: 0 auto;
-      padding: 48px 24px 36px;
+      padding: 52px min(40vw, 430px) 40px 24px;
+    }
+
+    .hero::after {
+      content: "";
+      position: absolute;
+      right: -18px;
+      bottom: -70px;
+      z-index: 0;
+      width: min(42vw, 430px);
+      aspect-ratio: 1;
+      background-image: var(--mascot);
+      background-repeat: no-repeat;
+      background-position: center bottom;
+      background-size: contain;
+      opacity: .82;
+      filter: drop-shadow(0 28px 46px rgba(15, 118, 110, .2));
+      pointer-events: none;
+    }
+
+    .hero > * {
+      position: relative;
+      z-index: 1;
     }
 
     .eyebrow {
@@ -321,6 +347,19 @@
     }
 
     @media (max-width: 820px) {
+      .hero {
+        min-height: 430px;
+        padding: 38px 24px 210px;
+      }
+
+      .hero::after {
+        right: 50%;
+        bottom: -70px;
+        width: 300px;
+        transform: translateX(50%);
+        opacity: .62;
+      }
+
       .guide-list,
       .note-grid {
         grid-template-columns: 1fr;
@@ -347,7 +386,13 @@
 
     @media (max-width: 520px) {
       .hero {
-        padding: 38px 24px 30px;
+        min-height: 390px;
+        padding: 34px 20px 178px;
+      }
+
+      .hero::after {
+        bottom: -58px;
+        width: 250px;
       }
 
       section {
@@ -380,7 +425,7 @@
       <p>Guide yang sudah siap dibaca. Pilih topik, buka halamannya, lalu ikuti langkah yang relevan.</p>
 
       <div class="guide-list">
-        <a class="guide-card primary" href="./codex-multi-profile/">
+        <a class="guide-card primary" href="./codex-multi-profile/index.html">
           <div class="guide-main">
             <h3>Codex Multi-Profile Guide</h3>
             <p>Setup beberapa akun Codex di satu komputer memakai <code>CODEX_HOME</code>, termasuk login, logout, <code>/status</code>, skills, MCP, dan session separation.</p>
@@ -393,7 +438,7 @@
           </div>
         </a>
 
-        <a class="guide-card secondary" href="./kilo-zai-glm51/">
+        <a class="guide-card secondary" href="./kilo-zai-glm51/index.html">
           <div class="guide-main">
             <h3>Kilo CLI + Z.AI GLM-5.1 Guide</h3>
             <p>Setup Kilo CLI dengan Z.AI GLM-5.1, dari install package, API key, endpoint Coding Plan, config <code>opencode.json</code>, sampai verify.</p>
@@ -506,7 +551,7 @@
         <p class="footer-copy">Written by Nagumo. Share freely, adapt carefully, and never publish credentials.</p>
       </div>
       <div class="footer-links" aria-label="Footer links">
-        <a href="./codex-multi-profile/">Codex Guide</a>
+        <a href="./codex-multi-profile/index.html">Codex Guide</a>
         <a href="https://github.com/nagumo-dev/public-guides">GitHub Repo</a>
       </div>
     </div>

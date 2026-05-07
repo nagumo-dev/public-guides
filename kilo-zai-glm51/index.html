@@ -28,6 +28,7 @@
       --code-bg: #101820;
       --code-ink: #eaf2f1;
       --radius: 8px;
+      --mascot: url("../assets/nagumo-dev-mascot.png");
     }
 
     * {
@@ -53,9 +54,34 @@
     }
 
     .hero {
+      position: relative;
+      overflow: hidden;
       max-width: 1120px;
+      min-height: 310px;
       margin: 0 auto;
-      padding: 46px 24px 32px;
+      padding: 50px min(39vw, 410px) 38px 24px;
+    }
+
+    .hero::after {
+      content: "";
+      position: absolute;
+      right: -20px;
+      bottom: -74px;
+      z-index: 0;
+      width: min(40vw, 410px);
+      aspect-ratio: 1;
+      background-image: var(--mascot);
+      background-repeat: no-repeat;
+      background-position: center bottom;
+      background-size: contain;
+      opacity: .78;
+      filter: drop-shadow(0 28px 46px rgba(15, 118, 110, .2));
+      pointer-events: none;
+    }
+
+    .hero > * {
+      position: relative;
+      z-index: 1;
     }
 
     .eyebrow {
@@ -444,6 +470,19 @@
     }
 
     @media (max-width: 860px) {
+      .hero {
+        min-height: 420px;
+        padding: 38px 24px 206px;
+      }
+
+      .hero::after {
+        right: 50%;
+        bottom: -70px;
+        width: 292px;
+        transform: translateX(50%);
+        opacity: .58;
+      }
+
       main {
         grid-template-columns: 1fr;
       }
@@ -468,6 +507,16 @@
     }
 
     @media (max-width: 640px) {
+      .hero {
+        min-height: 390px;
+        padding: 34px 20px 178px;
+      }
+
+      .hero::after {
+        bottom: -58px;
+        width: 250px;
+      }
+
       section {
         padding: 20px;
       }
@@ -747,7 +796,7 @@ kilo models zai</code></pre>
         <p class="footer-copy">Written by Nagumo. Share freely, adapt carefully, and never publish credentials.</p>
       </div>
       <div class="footer-links" aria-label="Footer links">
-        <a href="../">All Guides</a>
+        <a href="../index.html">All Guides</a>
         <a href="#references">References</a>
       </div>
     </div>
